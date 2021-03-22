@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 	 # before_action :find_post, only: [:show, :update, :edit, :destroy]
 	 before_action :authorized, except: [:index, :show]
+	 before_action :can_access_post?, only: [:edit, :update, :destroy]
 	def index
 		@posts = Post.all.order("created_at DESC")
 	end
@@ -24,8 +25,7 @@ class PostsController < ApplicationController
 	end
 
 	def update
-
-		if (@post.user == current_user || current_user.admin?) && @post.update(post_params)
+		if @post.update(post_params)
 			redirect_to @post
 		else
 			render 'edit'
@@ -38,18 +38,20 @@ class PostsController < ApplicationController
 
 	def destroy
 		@post = Post.find(params[:id])
-		if @post.user == current_user || current_user.admin?
-			@post.destroy
-		end
+		@post.destroy
 
 		redirect_to posts_path
-
 	end
 
 	private
 
 	def post_params
 		params.require(:post).permit(:title, :content)
+	end
+
+	def can_access_post?
+		@post = Post.find(params[:id])
+		redirect_to root_path, alert: 'You may not access that article.' unless (@post.user == current_user || current_user.admin?)
 	end
 
 	# def find_post

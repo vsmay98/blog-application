@@ -10,7 +10,7 @@
 		    </p>
 		  </div>
 		  <!-- Right side -->
-		  <% if current_user.admin? || @post.user == current_user %>
+		  <% if current_user.try(:admin?) || @post.user == current_user %>
 		  <div class="level-right">
 		  	<p class="level-item">
 		    	<%= link_to "Edit", edit_post_path(@post), class:"button" %>
