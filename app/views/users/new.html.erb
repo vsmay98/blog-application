@@ -1,0 +1,11 @@
+<%= form_for :user, url: '/signup' do |form| %>
+        <h2> Sign Up </h2>
+
+        <%= form.label :email %>
+        <%= form.text_field :email %>
+
+        <%= form.label :password %>
+        <%= form.password_field :password %>
+
+        <%=  submit_tag("Create Account") %>
+<% end %>

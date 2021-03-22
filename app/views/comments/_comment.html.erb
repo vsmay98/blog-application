@@ -1,0 +1,17 @@
+<div class="box">
+  <article class="media">
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><%= comment.user.try(:email) %>:</strong>
+          <%= comment.comment %>
+        </p>
+      </div>
+    </div>
+    <% if current_user.admin? || comment.user == current_user %>
+     <%= link_to 'Delete', [comment.post, comment],
+                  method: :delete, class: "button is-danger", data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </article>
+
+</div>
